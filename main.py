@@ -1,59 +1,41 @@
-def set_calculator():
-    # Вспомогательная функция для чтения множества из файла
-    def read_set(file_path):
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                # Предполагается, что элементы разделены пробелами или переводами строки
-                data = f.read().split()
-                return set(data)
-        except FileNotFoundError:
-            print(f"Файл {file_path} не найден.")
-            return set()
+def read_set_from_file(path):
+    with open(path, 'r', encoding='utf-8') as file:
+        data = file.read().strip().split()
+        return set(data)
+
+def set_calculator(file1, file2):
+    A = read_set_from_file(file1)
+    B = read_set_from_file(file2)
 
     while True:
-        path1 = input("Введите путь к первому файлу: ")
-        if path1.lower() in ['0', 'exit']:
-            break
-        path2 = input("Введите путь ко второму файлу: ")
-        if path2.lower() in ['0', 'exit']:
-            break
-
-        A = read_set(path1)
-        B = read_set(path2)
-
-        print(f"\nМножество А: {A}")
-        print(f"Множество В: {B}")
+        print("\nМножество A:", A)
+        print("Множество B:", B)
 
         print("\nВыберите операцию:")
         print("1 - Объединение (A ∪ B)")
         print("2 - Пересечение (A ∩ B)")
-        print("3 - Разность (A \\ B)")
-        print("4 - Симметрическая разность (A △ B)")
+        print("3 - Разность (A - B)")
+        print("4 - Разность (B - A)")
+        print("5 - Симметрическая разность (A Δ B)")
         print("0 - Выход")
 
         choice = input("Ваш выбор: ")
 
-        if choice == '0' or choice.lower() == 'exit':
+        if choice == '1':
+            print("Результат:", A | B)
+        elif choice == '2':
+            print("Результат:", A & B)
+        elif choice == '3':
+            print("Результат:", A - B)
+        elif choice == '4':
+            print("Результат:", B - A)
+        elif choice == '5':
+            print("Результат:", A ^ B)
+        elif choice == '0' or choice.lower() == 'exit':
             print("Выход из программы.")
             break
-
-        if choice == '1':
-            result = A.union(B)
-            operation = "Объединение"
-        elif choice == '2':
-            result = A.intersection(B)
-            operation = "Пересечение"
-        elif choice == '3':
-            result = A.difference(B)
-            operation = "Разность"
-        elif choice == '4':
-            result = A.symmetric_difference(B)
-            operation = "Симметрическая разность"
         else:
-            print("Некорректный выбор, попробуйте снова.")
-            continue
+            print("Неверный ввод, попробуйте снова.")
 
-        print(f"\nРезультат ({operation}): {result}\n")
-
-# Вызов функции
-# set_calculator()
+# пример вызова функции
+set_calculator('set1.txt', 'set2.txt')
